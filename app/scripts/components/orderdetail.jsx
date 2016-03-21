@@ -1,10 +1,11 @@
 var React = require('react');
+var $ = require('jquery');
 
 var OrderOption = React.createClass({
   render: function(){
     return (
-      <div className="item-option">
-        {this.props.option}
+      <div className="item-option item-info">
+         - {this.props.option}
       </div>
     );
   }
@@ -15,10 +16,9 @@ var OrderItem = React.createClass({
     var model = this.props.model;
     var options = '';
     var optKey = 0;
-    console.log(model);
     if(model.options){
-      optKey += 1;
       options = model.options.map(function(option){
+        optKey += 1;
         return ( <OrderOption option={option} key={optKey} />);
       });
     }
@@ -28,19 +28,31 @@ var OrderItem = React.createClass({
     }
     return (
       <li className="order-info">
-        <div className="item-title">{model.title}</div>
-        <div className="item-options">
+        <div className="item-numOrdered item-info">{model.numOrdered} order{suffix} </div>
+        <div className="item-title item-info">{model.title}</div>
+        <div className="item-options item-info">
           {options}
         </div>
-        <div className="item-numOrdered">{model.numOrdered} order{suffix} </div>
       </li>
     );
   }
 });
 
 var OrderDetail = React.createClass({
+  handleCheck: function(e){
+    var status = this.props.order.get('status');
+    var opt = {};
+    opt[e.target.name] = e.target.checked;
+    status = $.extend( {}, status, opt );
+    this.props.order.set( { status: status } );
+    this.props.updateStatus(e, this.props.order);
+  },
+  removeOrder: function(e){
+    this.props.removeOrder(e, this.props.order);
+  },
   render: function(){
     var customer = this.props.order.get('customer');
+    var status = this.props.order.get('status');
     var orderObj = this.props.order.get('order');
     var orderKey = 0;
     var orderItems = orderObj.map(function(model){
@@ -50,10 +62,10 @@ var OrderDetail = React.createClass({
     return (
       <div id="order-detail">
         <div id="order-customer-info">
-          <div className="customer-name">Name: {customer.firstname} {customer.lastname}</div>
-          <div className="customer-phone">Contact Number: {customer.phone}</div>
-          <div className="customer-address">Address: {customer.addressln1} {customer.city} {customer.st} {customer.zip}</div>
-          <div className="customer-email">Email: {customer.email}</div>
+          <div className="customer-name customer">Name: {customer.firstname} {customer.lastname}</div>
+          <div className="customer-phone customer">Contact Number: {customer.phone}</div>
+          <div className="customer-address customer">Address: {customer.addressln1} {customer.city} {customer.st} {customer.zip}</div>
+          <div className="customer-email customer">Email: {customer.email}</div>
         </div>
         <div id="order-order-info">
           <ul>
@@ -62,19 +74,58 @@ var OrderDetail = React.createClass({
         </div>
         <div id="order-status">
           <form>
-            <div className="preparing">
-              <input type="checkbox" name="preparing" value="" />
+            <div className="preparing status">
+              <div className="status-holder">
+                <label htmlFor="status-1">Preparing</label>
+                <input id="status-1"
+                  type="checkbox"
+                  name="preparing"
+                  onChange={this.handleCheck}
+                  checked={status.preparing} />
+              </div>
             </div>
-            <div className="prepared">
-              <input type="checkbox" name="prepared" value="" />
+            <div className="prepared status">
+              <div className="status-holder">
+                <label htmlFor="status-2">Prepared</label>
+                <input
+                  id="status-2"
+                  type="checkbox"
+                  name="prepared"
+                  onChange={this.handleCheck}
+                  checked={status.prepared} />
+              </div>
             </div>
-            <div className="delivering">
-              <input type="checkbox" name="delivering" value="" />
+            <div className="delivering status">
+              <div className="status-holder">
+                <label htmlFor="status-3">Delivering</label>
+                <input
+                  id="status-3"
+                  type="checkbox"
+                  name="delivering"
+                  onChange={this.handleCheck}
+                  checked={status.delivering} />
+              </div>
             </div>
-            <div className="delivered">
-              <input type="checkbox" name="delivered" value="" />
+            <div className="delivered status">
+              <div className="status-holder">
+                <label htmlFor="status-4">Delivered</label>
+                <input
+                  id="status-4"
+                  type="checkbox"
+                  name="delivered"
+                  onChange={this.handleCheck}
+                  checked={status.delivered} />
+              </div>
             </div>
           </form>
+          <div className="completed-holder">
+            <div className="completed-spacer">
+            <button
+              className="completed"
+              onClick={this.removeOrder}
+              >Order Completed!</button>
+            </div>
+          </div>
         </div>
       </div>
     );
