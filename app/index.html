@@ -7,8 +7,45 @@
     <link rel="stylesheet" href="css/app.css">
   </head>
   <body>
+    <div class="container">
+      <div class="row">
 
-    <h1>Hello World!</h1>
+        <div id="order-detail">
+          <div id="order-customer-info">
+            <div class="customer-name"></div>
+            <div class="customer-phone"></div>
+            <div class="customer-address"></div>
+            <div class="customer-email"></div>
+          </div>
+          <div id="order-order-info">
+            <ul>
+              <li class="order-info">
+                <div class="item-title"></div>
+                <div class="item-options"></div>
+                <div class="item-numOrdered"></div>
+              </li>
+            </ul>
+          </div>
+          <div id="order-status">
+            <form>
+              <div class="preparing">
+                <input type="checkbox" name="preparing" value="">
+              </div>
+              <div class="prepared">
+                <input type="checkbox" name="prepared" value="">
+              </div>
+              <div class="delivering">
+                <input type="checkbox" name="delivering" value="">
+              </div>
+              <div class="delivered">
+                <input type="checkbox" name="delivered" value="">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="app"></div>
 
     <script src="js/bundle.js"></script>
   </body>
