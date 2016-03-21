@@ -1,6 +1,6 @@
 
 // Bootstrap Variables
-$icon-font-path: '../../node_modules/bootstrap-sass/assets/fonts/bootstrap/';
+$icon-font-path: '../fonts';
 
 // Import Bootstrap
 @import '../../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
@@ -14,4 +14,29 @@ $icon-font-path: '../../node_modules/bootstrap-sass/assets/fonts/bootstrap/';
 
 img {
   max-width: 100%;
+}
+
+ul{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#sidebar{
+  @include make-sm-column(3);
+}
+.sidebar-order-item{
+  cursor: pointer;
+  padding: 10px 5px;
+  border: 2px solid black;
+  &:not(:first-of-type){
+    border-top: none;
+  }
+  &:hover, &:active{
+    background: darken(white, 10%);
+    font-weight: bold;
+  }
+}
+#order-detail{
+  @include make-sm-column(9);
 }
